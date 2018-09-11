@@ -15,16 +15,17 @@ brew 'elixir'
 brew 'git'
 brew 'go'
 brew 'mas'
-# brew 'mysql'
-# brew 'node'
-# brew 'npm'
+brew 'mysql'
+brew 'node'
+brew 'npm'
 brew 'php'
-# brew 'postgresql@9.6'
+brew 'postgresql@9.6'
 brew 'python'
-# brew 'python3'
+brew 'python3'
 brew 'ruby'
 ###############
 
+############### https://github.com/Homebrew/homebrew-cask/tree/master/Casks # List of all casks
 ############### https://caskroom.github.io/ # Search for Casks
 ############### http://macappstore.org/ # Search for Casks
 cask '1password'
