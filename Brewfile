@@ -1,4 +1,7 @@
 ############### Procedure - Steps to Set Up a New Mac
+# This is a step-by-step guide to set up a new Mac. It has notes on what to do after the Brewfile is installed as well.
+##################################################################################################################
+
 # Step 1: Install Xcode Command Line Tools (only if not already installed)
 # Run: `sudo xcode-select --install`
 # Xcode Command Line Tools are automatically installed when installing Homebrew.
@@ -10,51 +13,25 @@
 # Step 3: Install `brew bundle` command (if not already installed)
 # Run: `brew tap Homebrew/bundle`
 
-# Step 4: Tap additional repositories for casks (optional)
-# Run: `brew tap homebrew/cask-versions`
-# Run: `brew tap homebrew/cask-drivers`
-
-# Step 5: Create Brewfile (if not already created)
+# Step 4: Create Brewfile (if not already created)
 # Run: `touch Brewfile` 
 # Open the file for editing: `open -e Brewfile`
 
-# Step 6: Add desired tools to the Brewfile
+# Step 5: Add desired tools to the Brewfile
 # Copy the contents of this Brewfile into the file, then save.
 
-# Step 7: Install all tools listed in the Brewfile
+# Step 6: Install all tools listed in the Brewfile
 # Run: `brew bundle`
-##################################################################################################################
 
-############### Setup Commands
-# These are additional setup steps to configure your environment
-#
-# 1. To initialize `starship` in your shell (Zsh example), add the following to your `.zshrc`:
-#    `eval "$(starship init zsh)"` (Note: Uncomment when you want to use starship)
-#
-# 2. To install any missing dependencies:
+# Step 7: To install any missing dependencies:
 #    Run: `brew install <tool>` to install any tools not covered in this Brewfile.
-##################################################################################################################
-
-##################################################################################################################
-##### Additional Setup Instructions for Development Environment
-##################################################################################################################
-
-############### SSH Key Setup for GitHub
-# Add SSH Key to GitHub
-# 1. Generate a new SSH key using:
-#    `ssh-keygen -m PEM -b 4096 -C <your_email>`
-#    (Replace `<your_email>` with your email.)
-# 2. Follow GitHub’s guide to add your SSH key: 
-#    https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
+#   !!! Or better yet, add the tool to the Brewfile and re-run `brew bundle`. !!!
 ##################################################################################################################
 
 ##################################################################################################################
 ##### Brew Taps - A Homebrew subcommand to add additional repositories which are not in the official formulae
 ##################################################################################################################
 tap 'homebrew/bundle'  # Allows use of `brew bundle` for installing Brewfiles
-tap 'homebrew/cask'  # Provides access to macOS GUI applications
-tap 'homebrew/cask-versions'  # Offers alternative versions of popular apps
-tap 'homebrew/cask-drivers'  # Contains drivers for various hardware devices
 ##################################################################################################################
 
 ##################################################################################################################
@@ -65,11 +42,11 @@ tap 'homebrew/cask-drivers'  # Contains drivers for various hardware devices
 ###### Terminal tools
 ####################################################################
 brew 'magic-wormhole' # Securely transfer files and text between computers
-brew 'bash-completion' # Enables auto-completion for Bash shell
 brew 'git' # Version control system for tracking code changes
 brew 'mas' # Command-line interface for installing Mac App Store apps
 brew 'zsh' # Z shell, an extended version of Bash with more features
 brew 'zsh-completions' # Additional completions for Zsh shell
+brew 'zsh-autosuggestions' # Autosuggestions for Zsh shell
 brew 'tldr' # Provides simple, community-driven documentation for CLI commands
 # brew 'starship' # Fancy terminal prompt (commented out for now)
 
@@ -91,6 +68,7 @@ brew 'tldr' # Provides simple, community-driven documentation for CLI commands
 # brew 'kubectx' # Simplifies Kubernetes context switching
 # brew 'kubernetes-cli' # CLI tools for Kubernetes cluster management
 # brew 'kubernetes-helm' # Package manager for Kubernetes applications
+brew 'awscli' # Command-line tool for interacting with AWS services
 
 ####################################################################
 ###### Package Managers
@@ -172,8 +150,6 @@ cask 'visual-studio-code' # Lightweight code editor with powerful extensions
 ####################################################################
 ###### Utilities
 ####################################################################
-# https://github.com/Homebrew/homebrew-cask/blob/master/Casks/spectacle.rb
-cask 'spectacle' # Window management tool for organizing applications
 # https://github.com/Homebrew/homebrew-cask/blob/master/Casks/rectangle.rb
 cask 'rectangle' # Alternative window manager for snapping windows
 
@@ -181,7 +157,6 @@ cask 'rectangle' # Alternative window manager for snapping windows
 ###### Mac App Store Applications
 ####################################################################
 mas 'Amphetamine', id: 937984704 # Prevents Mac from sleeping
-mas 'Trello', id: 1278508951 # Task management and collaboration tool
 #
 #
 ####################################################################
@@ -191,3 +166,63 @@ mas 'Trello', id: 1278508951 # Task management and collaboration tool
 # https://brew.sh  # Homebrew documentation
 # https://macappstore.org/  # Search for Mac App Store apps
 ####################################################################
+
+
+##################################################################################################################
+##### Additional Setup Instructions for Development Environment
+##################################################################################################################
+
+############### SSH Key Setup for GitHub
+# Add SSH Key to GitHub
+# 1. Generate a new SSH key using:
+#    `ssh-keygen -m PEM -b 4096 -C <your_email>`
+#    (Replace `<your_email>` with your email.)
+# 2. Follow GitHub’s guide to add your SSH key: 
+#    https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
+##################################################################################################################
+
+
+############### Setup Zsh and Oh-My-Zsh
+# Install Oh-My-Zsh
+# Run: `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
+# Copy the contents of the .zshrc from GitHub into the .zshrc file in this directory
+# Run: `source ~/.zshrc` to apply the changes
+###############
+
+############### Mac Settings
+# Top Bar (Control Center)
+# 1. Show battery percentage
+# 2. Show clock
+# 3. Show sound
+# 4. Show Bluetooth
+
+# Finder settings
+# 1. Show Library folder
+# 2. Show hidden files
+# 3. Show all file extensions
+# 4. Show library in sidebar
+
+# Default Browser
+# 1. Arc
+
+# Sign in with Apple Account
+###############
+
+############### Additional Apps
+# 1Password
+# 1. Add Family Accoutn
+# 2. Connect browser extensions
+
+# Slack Accounts
+# 1. Add personal accounts
+###############
+
+
+############### Starship Prompt
+# These are additional setup steps to configure your environment
+#
+# 1. To initialize `starship` in your shell (Zsh example), add the following to your `.zshrc`:
+#    `eval "$(starship init zsh)"` (Note: Uncomment when you want to use starship)
+#
+##################################################################################################################
+
