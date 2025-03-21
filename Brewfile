@@ -76,6 +76,7 @@ brew 'awscli' # Command-line tool for interacting with AWS services
 # brew 'yarn' # Alternative JavaScript package manager to npm
 # brew 'npm' # JavaScript package manager for frontend/backend development
 # brew 'composer' # Dependency manager for PHP applications
+# brew 'oven-sh/bun/bun'
 
 ####################################################################
 ###### Databases
