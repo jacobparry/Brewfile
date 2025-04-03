@@ -10,28 +10,19 @@
 # Run: `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 # This installs Homebrew (a package manager for macOS).
 
-# Step 3: Install `brew bundle` command (if not already installed)
-# Run: `brew tap Homebrew/bundle`
-
-# Step 4: Create Brewfile (if not already created)
+# Step 3: Create Brewfile (if not already created)
 # Run: `touch Brewfile` 
 # Open the file for editing: `open -e Brewfile`
 
-# Step 5: Add desired tools to the Brewfile
+# Step 4: Add desired tools to the Brewfile
 # Copy the contents of this Brewfile into the file, then save.
 
-# Step 6: Install all tools listed in the Brewfile
+# Step 5: Install all tools listed in the Brewfile
 # Run: `brew bundle`
 
-# Step 7: To install any missing dependencies:
+# Step 6: To install any missing dependencies:
 #    Run: `brew install <tool>` to install any tools not covered in this Brewfile.
 #   !!! Or better yet, add the tool to the Brewfile and re-run `brew bundle`. !!!
-##################################################################################################################
-
-##################################################################################################################
-##### Brew Taps - A Homebrew subcommand to add additional repositories which are not in the official formulae
-##################################################################################################################
-tap 'homebrew/bundle'  # Allows use of `brew bundle` for installing Brewfiles
 ##################################################################################################################
 
 ##################################################################################################################
@@ -75,8 +66,8 @@ brew 'awscli' # Command-line tool for interacting with AWS services
 ####################################################################
 # brew 'yarn' # Alternative JavaScript package manager to npm
 # brew 'npm' # JavaScript package manager for frontend/backend development
+brew install oven-sh/bun/bun
 # brew 'composer' # Dependency manager for PHP applications
-# brew 'oven-sh/bun/bun'
 
 ####################################################################
 ###### Databases
@@ -226,4 +217,3 @@ mas 'Amphetamine', id: 937984704 # Prevents Mac from sleeping
 #    `eval "$(starship init zsh)"` (Note: Uncomment when you want to use starship)
 #
 ##################################################################################################################
-
