@@ -78,6 +78,7 @@ brew 'postgresql' # Advanced relational database, great for large projects
 ####################################################################
 ###### asdf and needed packages (used to install Erlang and Elixir)
 ####################################################################
+brew 'mise' # Drop in replacement for ASDF
 brew 'asdf' # Version manager for programming languages
 brew 'autoconf' # Generates configure scripts for compiling software
 brew 'coreutils' # GNU utilities for file, shell, and text manipulation
