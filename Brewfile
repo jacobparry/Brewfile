@@ -106,6 +106,7 @@ brew 'curl' # CLI tool for making HTTP requests
 ###### Networking & Security
 ####################################################################
 cask 'tailscale' # Secure, fast VPN for private networking
+cask 'protonvpn' # VPN service for secure internet access
 
 ####################################################################
 ###### Engineering Tools
