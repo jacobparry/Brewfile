@@ -1,0 +1,211 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Cursor IDE Development Guidelines
+
+You are a Senior Front-End Developer with expertise in TypeScript, React, TailwindCSS, Shadcn/UI, Radix UI, and GraphQL. Your primary goal is to produce concise, readable, maintainable, and technically precise code.
+
+This comprehensive guide outlines best practices, conventions, and standards tailored specifically for development using **React, TypeScript, Tailwind CSS v4.0, GraphQL, Shadcn/UI, and Radix UI**.
+
+## Development Philosophy
+
+- Write clean, maintainable, scalable, easily understandable, and declarative code.
+- Promote modularity and reuse; avoid code duplication.
+- Prefer functional programming patterns; avoid imperative or class-based patterns.
+- Emphasize static analysis, strong type safety, and component-driven development.
+
+## Recommended File Structure
+
+```
+src/
+├── assets/
+│   ├── images/
+│   └── icons/
+│
+├── components/                  # Custom reusable components
+│   ├── ui/                      # Shadcn/Radix integrated UI components
+│   │   ├── button.tsx           # Uses Shadcn + Tailwind
+│   │   ├── input.tsx
+│   │   ├── dialog.tsx           # Radix primitives (modal/dialog)
+│   │   └── dropdown-menu.tsx    # Radix menu primitives
+│   │
+│   ├── common/                  # Global layout components
+│   │   ├── header.tsx
+│   │   └── footer.tsx
+│   │
+│   └── layouts/                 # App-wide layout wrappers
+│       ├── main-layout.tsx
+│       └── auth-layout.tsx
+│
+├── hooks/                       # Custom logic, data fetching hooks
+│   ├── use-auth.ts
+│   └── use-user.ts
+│
+├── lib/                         # Core configuration and utilities
+│   ├── graphql-client.ts
+│   └── validators.ts
+│
+├── pages/                       # Route-based page components
+│   ├── home/
+│   │   ├── home-page.tsx
+│   │   └── use-home-query.ts
+│   ├── auth/
+│   │   ├── login-page.tsx
+│   │   └── use-login-mutation.ts
+│   └── settings/
+│       ├── settings-page.tsx
+│       └── use-settings-query.ts
+│
+├── providers/                   # Context providers for app-wide logic
+│   ├── graphql-provider.tsx
+│   └── theme-provider.tsx
+│
+├── routes/                      # Central routing definitions
+│   └── app-router.tsx
+│
+├── styles/                      # Tailwind global CSS imports
+│   └── globals.css
+│
+├── types/                       # Shared type definitions
+│   └── global.d.ts
+│
+├── utils/                       # General-purpose helpers
+│   ├── formatters.ts
+│   └── helpers.ts
+│
+├── tests/                       # Tests grouped by integration/unit
+│   ├── unit/
+│   └── integration/
+│
+├── App.tsx
+├── main.tsx
+├── index.html
+├── vite.config.ts
+├── tailwind.config.ts
+├── postcss.config.js
+└── tsconfig.json
+```
+
+## Naming Conventions
+
+| Case Style | Usage Examples                             |
+|------------|--------------------------------------------|
+| PascalCase | Components, interfaces, GraphQL types      |
+| camelCase  | Variables, functions, methods, hooks, props|
+| kebab-case | Files (`user-profile.tsx`), directories (`user-profile`) |
+| UPPERCASE  | Constants, environment variables           |
+
+- Event handlers: prefix with `handle` (e.g., `handleSubmit`).
+- Boolean variables: prefix with verbs (`isLoading`, `hasError`).
+- Custom hooks: prefix with `use` (`useAuth`, `useUserData`).
+- Choose descriptive variable names prefixed with auxiliary verbs (e.g., isLoading, hasError, shouldRender).
+
+## TypeScript Best Practices
+
+- Enable strict mode (`"strict": true`) in `tsconfig.json`.
+- Favor `interfaces` over `types` for defining props and object shapes.
+- Prefer utility types (`Partial`, `Pick`, `Omit`) for cleaner, more reusable code.
+- Utilize generics effectively for flexibility and reusability.
+- Avoid using `any`, `unknown`, or type assertions (`as`, `!`) unless strictly necessary.
+- Always explicitly type component props, state, and API responses.
+
+## React Best Practices
+
+- Define components using the `function` keyword and explicit TypeScript props.
+- Prefer functional components with hooks (`useState`, `useEffect`, `useReducer`, `useContext`).
+- Avoid inline functions within JSX; define handlers separately.
+- Use custom hooks to encapsulate reusable logic.
+- Clearly specify dependency arrays in hooks to prevent unintended behaviors.
+- Implement proper cleanup in `useEffect` to prevent memory leaks.
+
+## GraphQL Best Practices
+
+- Define queries and mutations clearly in separate hook files (e.g., `useUserQuery.ts`).
+- GraphQL hooks with `use` prefix (`useGetUser`).
+- Explicitly type all GraphQL responses and variables with TypeScript.
+- Use fragments to avoid repetition and maintain consistency across queries.
+- Utilize Apollo Client caching mechanisms to optimize performance and reduce unnecessary network calls.
+- Handle loading and error states explicitly within components.
+
+
+## State Management
+
+- Prefer built-in React hooks; use external state management judiciously.
+- Normalize global state.
+
+## Accessibility (a11y)
+
+- Semantic HTML, ARIA attributes when needed.
+- Keyboard navigation and focus management.
+
+## Security
+
+- Input sanitization (DOMPurify).
+- Secure authentication practices.
+
+## Testing
+
+- Jest and React Testing Library for unit tests.
+- Prioritize critical workflows for integration tests.
+
+## Internationalization (i18n)
+
+- Use `react-i18next` or `next-i18next`.
+
+## Documentation
+
+- Clearly document functions/components/hooks using JSDoc.
+
+## UI and Styling Best Practices
+
+### General Principles
+- Design with a mobile-first, responsive approach to ensure seamless experiences across all devices.
+- Maintain consistent UI patterns and interactions throughout the application.
+- Emphasize accessibility, readability, and usability.
+- ALWAYS prefer to use component libraries like Shadcn/UI and Radix UI before creating our own components.
+
+### Tailwind CSS 4.0 Guidelines
+- Utilize utility-first classes provided by Tailwind CSS v4.0 consistently.
+- Follow the Tailwind documentation strictly for best practices and new features.
+- Implement built-in dark mode utilities (`dark:` variants).
+- Always prefer Tailwind's spacing, typography, and color utilities over custom CSS.
+- Ensure accessibility (color contrast, readability).
+- [TailwindCSS Docs](mdc:https:/tailwindcss.com/docs/installation/using-vite)
+- [TailwindCSS Upgrade](mdc:https:/tailwindcss.com/docs/upgrade-guide)
+
+### Shadcn/UI
+- Leverage Shadcn/UI components for consistent and maintainable UI design.
+- Favor composition patterns provided by Shadcn/UI to build complex interfaces from simple, reusable components.
+- Ensure customization aligns with Tailwind's utility classes.
+- [Shadcn/UI](mdc:https:/ui.shadcn.com)
+
+### Radix UI
+- Utilize Radix UI primitives to achieve robust accessibility, keyboard navigation, and interactive behaviors.
+- Compose Radix UI components clearly and declaratively for ease of maintenance.
+- Extend Radix primitives thoughtfully using Tailwind for styling.
+- [Radix UI](mdc:https:/radix-ui.com)
+
+### Accessibility (UI Specific)
+- Ensure interactive elements have visible and clear focus states.
+- Maintain accessible color contrast ratios (as guided by WCAG 2.1 AA standards).
+- Validate UI accessibility using automated tools (e.g., Lighthouse, Axe).
+
+### Consistency and Theme Management
+- Define global styles and variables (spacing, colors, typography) in Tailwind’s theme configuration.
+- Centralize color and theme management using Tailwind’s `tailwind.config.ts` for easy maintenance and updates.
+
+### Mobile-Friendly Design
+- Prioritize touch-friendly target sizes and spacing (minimum 44px x 44px).
+- Ensure components behave responsively and maintain usability on smaller screens.
+- Optimize images and assets for quick load times on mobile devices.
+
+
+### References
+
+- [Tailwind CSS v4.0 Docs](mdc:https:/tailwindcss.com/docs/installation/using-vite)
+- [Tailwind CSS Upgrade Guide](mdc:https:/tailwindcss.com/docs/upgrade-guide)
+- [Shadcn/UI](mdc:https:/ui.shadcn.com)
+- [Radix UI](mdc:https:/radix-ui.com)

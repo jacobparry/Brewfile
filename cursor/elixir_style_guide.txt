@@ -1,0 +1,567 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Elixir style guide rules for an elixir project.
+globs: 
+---
+
+
+# Elixir Style Guide
+
+This guide is inspired by general coding style principles—clarity, readability, and consistency—while also aligning with idiomatic Elixir practices. It references concepts from popular language-agnostic style guides (like Google's) and previous Elixir style guides, but focuses on what's most relevant today.
+
+## Overview
+
+**Purpose:** Provide common-sense rules that make Elixir code easily understandable and maintainable.
+
+If a rule conflicts with common Elixir conventions (for example, the defaults used by mix format), choose the more idiomatic Elixir approach. When in doubt, be consistent and prefer clarity.
+
+## General Principles
+
+### Consistency is King
+
+Stick to a consistent style throughout a file or project. If a pattern is already established, follow it rather than introducing a new style.
+
+**Rationale:** This reduces mental overhead and keeps the code base uniform.
+
+### Readability Above Cleverness
+
+Opt for clear, obvious code rather than saving lines or creating overly terse one-liners.
+
+**Rationale:** Code is read far more often than it is written. Familiar and straightforward constructs help future maintainers (including you) quickly grasp intent.
+
+### Make Code Obviously Correct
+
+Strive for code that looks obviously correct, not suspicious or confusing. Names and structure should communicate intent directly.
+
+**Rationale:** If the code is obviously correct at first glance, it's less likely to be wrong. If something looks suspicious, it stands out and prompts closer review.
+
+### Favor Boring Over Magical
+
+Use explicit, vanilla Elixir constructs. Use your creativity in test data or examples, not in over-engineered production logic.
+
+**Rationale:** Straightforward code that follows common Elixir patterns is easier to maintain and less error-prone.
+
+### Separate Concerns
+
+Split major concerns into distinct modules or functions. For example, keep data handling separate from business rules, and keep policy separate from mechanics.
+
+**Rationale:** Each part of the code focuses on a single responsibility, making it easier to test and evolve over time.
+
+## Deficiency Documentation: TODO and FIXME
+
+### TODO Comments
+
+Use TODO to mark known improvements or future tasks. Include context if available, such as an issue reference or explanation.
+
+#### Example:
+
+```bash
+# TODO: Implement better error handling once the new API is confirmed.
+```
+
+**Rationale:** Readers can see areas that are incomplete but not urgent enough to block merging.
+
+### FIXME Comments
+
+Use FIXME for urgent problems that must be addressed before merging.
+
+#### Example:
+
+```bash
+# FIXME: Handle null data edge case or fail gracefully.
+```
+
+**Rationale:** Signals an immediate correction needed, preventing merge until resolved or downgraded to a TODO.
+
+## Code
+
+### Naming
+
+- **Modules:** Use PascalCase (e.g., `MyAppWeb.UserController`).
+- **Functions and Variables:** Use snake_case (e.g., `fetch_user_by_id`).
+- **Atoms:** Use snake_case atoms (e.g., `:admin_role`).
+- **Pipelines:** If a pipeline becomes long, break it into logical chunks with intermediate variables.
+
+#### Good Example:
+
+```elixir
+user_email = user.email
+expires_in_seconds = 60 * 60  # Clarify a time unit
+```
+
+**Rationale:** Meaningful names prevent confusion and make the logic self-evident.
+
+### Constants
+
+Elixir encourages using modules or application config for constants.
+
+#### For Example:
+
+```elixir
+defmodule MyApp.Constants do
+  @moduledoc false
+
+  @default_timeout_ms 5000
+  @max_retries 3
+
+  def default_timeout_ms, do: @default_timeout_ms
+  def max_retries, do: @max_retries
+end
+```
+
+**Rationale:** Collecting important constants in one place clarifies intent and eases maintenance.
+
+### Types & Specs
+
+When possible, include typespecs (`@type`, `@spec`).
+
+#### For Example:
+
+```elixir
+@type user_id :: integer
+
+@spec fetch_user(user_id) :: {:ok, User.t()} | {:error, term()}
+def fetch_user(id) do
+  # ...
+end
+```
+
+**Rationale:** Helps Dialyzer catch bugs and clearly documents function expectations.
+
+### Documentation
+
+Use `@moduledoc` at the top of a module, `@doc` for public functions, and `@doc false` for private/internal functions.
+
+#### For Example:
+
+```elixir
+defmodule MyApp.UserHandler do
+  @moduledoc """
+  Handles user-related logic and validations.
+  """
+
+  @doc """
+  Returns a user for the given ID.
+  """
+  def get_user(id), do: ...
+end
+```
+
+**Rationale:** In-code docs keep usage info close to the implementation and make it easier to generate external documentation.
+
+### Logging
+
+Use `Logger` for consistent output. Log at the appropriate level (`:debug`, `:info`, `:warn`, `:error`). Keep messages clear, concise, and helpful for debugging.
+
+#### For Example:
+
+```elixir
+Logger.info("User created: #{inspect(user)}")
+```
+
+**Rationale:** Well-structured logs make debugging and monitoring smoother.
+
+## Tests
+
+### Structure
+
+- Use ExUnit in the `test/` folder.
+- Group related tests by module or feature (e.g., `MyAppWeb.EndpointTest`).
+- Write test blocks with `test "description" do ... end`.
+
+### Minimal Logic in Tests
+
+Use helper functions, factories, or mocks to set up data rather than incorporating complicated logic directly in tests.
+
+#### For Example:
+
+```elixir
+defmodule MyApp.UserHandlerTest do
+  use ExUnit.Case
+
+  test "returns user for valid ID" do
+    user = create_test_user(id: 123, name: "Test")
+    assert {:ok, ^user} = UserHandler.get_user(user.id)
+  end
+end
+```
+
+**Rationale:** Tests should be straightforward so issues surface quickly if they fail.
+
+### Expressive Values
+
+Use obviously fake data (e.g., "test@example.com" or "not-a-valid-phone") to clearly indicate test-related values.
+
+**Rationale:** This makes test intent explicit and reduces confusion with real-world data.
+
+## Conclusion
+
+Be consistent: If the code base follows a pattern, match it.
+
+Be explicit: Name things well and document them thoroughly.
+
+Be idiomatic: Follow Elixir's common patterns (mix format, pipelines, pattern matching).
+
+Strive for clarity: Others (including future you) will thank you.
+
+Adhering to these guidelines results in Elixir code that's straightforward to read, maintain, and evolve. Above all, use your best judgment and favor clarity whenever in doubt.
+
+## Core Principles
+
+### 1. Security First
+- Always implement role-based access control
+- Validate all user input
+- Use proper authorization checks
+- Handle sensitive data appropriately
+- Test security measures thoroughly
+
+### 2. Testing Excellence
+- Write tests before implementation
+- Cover edge cases comprehensively
+- Test authorization and access control
+- Validate UI states (empty, loading, error)
+- Use descriptive test descriptions
+
+### 3. UI/UX Consistency
+- Handle empty states gracefully
+- Use consistent error message formatting
+- Implement proper loading states
+- Follow established navigation patterns
+- Format text content consistently (including HTML entities)
+
+### 4. Code Organization
+- Group related functionality in modules
+- Use clear, descriptive naming
+- Follow established patterns
+- Keep functions focused and small
+- Document public interfaces
+
+## Testing Guidelines
+
+### Test Structure
+```elixir
+describe "context or feature" do
+  setup do
+    # Common setup for all tests in this describe block
+    %{key: value}
+  end
+
+  test "specific behavior being tested", %{key: value} do
+    # Test implementation
+  end
+end
+```
+
+### Access Control Tests
+- Test unauthorized access
+- Verify role-based permissions
+- Check resource ownership
+- Validate redirect paths
+- Test error messages
+
+### UI Component Tests
+- Test empty states
+- Verify loading indicators
+- Check error message formatting
+- Validate navigation flows
+- Test user interactions
+
+## Security Patterns
+
+### Authorization
+```elixir
+def authorize(user, action, resource) do
+  case {user.role, action, resource} do
+    {:admin, _action, _resource} -> :ok
+    {_role, _action, _resource} -> {:error, :unauthorized}
+  end
+end
+```
+
+### Input Validation
+```elixir
+def validate_input(params) do
+  params
+  |> validate_required([:field1, :field2])
+  |> validate_format(:email, ~r/@/)
+  |> validate_length(:password, min: 12)
+end
+```
+
+## UI Patterns
+
+### Empty States
+```elixir
+~H"""
+<.empty_state :if={Enum.empty?(@items)}>
+  <:icon>
+    <.icon name="hero-document" />
+  </:icon>
+  <:title>No items found</:title>
+  <:description>Create your first item to get started.</:description>
+</.empty_state>
+"""
+```
+
+### Error Handling
+```elixir
+case operation do
+  {:ok, result} -> 
+    {:noreply, socket}
+  {:error, %Ecto.Changeset{} = changeset} ->
+    {:noreply, assign_form(socket, changeset)}
+  {:error, :unauthorized} ->
+    {:noreply, 
+     socket
+     |> put_flash(:error, "Not authorized")
+     |> redirect(to: ~p"/")}
+end
+```
+
+## Changelog Management
+
+### Commit Messages
+```bash
+# Format:
+Phase X: [Component] - Brief description
+
+# Example:
+Phase 2: [Auth] - Add role-based access control
+```
+
+### Design Doc Updates
+```markdown
+### 2024-02-08 (2) - [Component]
+- Added feature X
+- Updated module Y
+- Fixed issue Z
+```
+
+## Review Checklist
+
+### Code Review
+- [ ] Follows naming conventions
+- [ ] Has comprehensive tests
+- [ ] Implements proper security
+- [ ] Handles edge cases
+- [ ] Uses consistent patterns
+- [ ] Updates documentation
+
+### Security Review
+- [ ] Implements role checks
+- [ ] Validates input
+- [ ] Handles errors
+- [ ] Protects sensitive data
+- [ ] Tests security features
+
+### UI Review
+- [ ] Consistent styling
+- [ ] Proper empty states
+- [ ] Clear error messages
+- [ ] Intuitive navigation
+- [ ] Responsive design
+
+## Documentation
+
+### Function Documentation
+- Every public function MUST have both `@spec` and `@doc` annotations
+- Documentation should explain the purpose, parameters, and return value
+- Include examples in documentation when behavior isn't immediately obvious
+
+```elixir
+@doc """
+Creates a new project for a general contractor.
+
+Returns `{:ok, project}` if successful, `{:error, changeset}` if validation fails.
+
+## Examples
+
+    iex> create_project(general_contractor, %{name: "Office Building", address: "123 Main St"})
+    {:ok, %Project{}}
+"""
+@spec create_project(User.t(), map()) :: {:ok, Project.t()} | {:error, Ecto.Changeset.t()}
+def create_project(general_contractor, attrs) do
+  # Implementation
+end
+```
+
+### Module Documentation
+- Every module MUST have a `@moduledoc` explaining its purpose and responsibilities
+- Include usage examples for context modules
+- Document any module-level configuration or behavior
+
+```elixir
+defmodule Plumb.Projects do
+  @moduledoc """
+  The Projects context.
+  
+  Handles all project-related operations including creation, updates,
+  and management of project-subcontractor relationships.
+  
+  ## Usage
+  
+      Projects.create_project(general_contractor, %{name: "New Building"})
+      Projects.list_projects(general_contractor)
+  """
+end
+```
+
+## Testing
+
+### Factory Usage
+- ALWAYS use ExMachina factories for test data
+- Define clear, focused factories with minimal required attributes
+- Use traits for common variations
+- Keep factory definitions clean and maintainable
+
+```elixir
+# GOOD
+def user_factory do
+  %User{
+    email: sequence(:email, &"user#{&1}@example.com"),
+    hashed_password: Bcrypt.hash_pwd_salt("hello world!"),
+    role: :general_contractor
+  }
+end
+
+def project_factory do
+  %Project{
+    name: sequence(:name, &"Project #{&1}"),
+    address: sequence(:address, &"#{&1} Main St"),
+    general_contractor: build(:user)
+  }
+end
+
+# BAD - Don't use setup blocks
+setup do
+  user = insert(:user)
+  %{user: user}
+end
+```
+
+### Test Organization
+- Organize tests by function name and arity
+- Use descriptive test names that explain the scenario
+- Each test should be self-contained with its own data
+- Avoid `setup` blocks
+- Group related test cases in describe blocks
+
+```elixir
+# GOOD
+defmodule Plumb.ProjectsTest do
+  use Plumb.DataCase
+  import Plumb.Factory
+
+  describe "create_project/2" do
+    test "creates project with valid attributes" do
+      gc = insert(:user, role: :general_contractor)
+      attrs = params_for(:project)
+      
+      assert {:ok, project} = Projects.create_project(gc, attrs)
+      assert project.name == attrs.name
+    end
+
+    test "returns error with invalid attributes" do
+      gc = insert(:user, role: :general_contractor)
+      
+      assert {:error, changeset} = Projects.create_project(gc, %{})
+      assert "can't be blank" in errors_on(changeset).name
+    end
+  end
+
+  describe "get_project/2" do
+    test "returns project for authorized general contractor" do
+      gc = insert(:user, role: :general_contractor)
+      project = insert(:project, general_contractor: gc)
+      
+      assert Projects.get_project(gc, project.id) == project
+    end
+  end
+end
+
+# BAD
+defmodule Plumb.ProjectsTest do
+  setup do
+    gc = insert(:user)
+    %{gc: gc}
+  end
+
+  test "creates project", %{gc: gc} do
+    # Test implementation
+  end
+end
+```
+
+### Test Data Guidelines
+- Use factories to create minimal valid data
+- Only set attributes relevant to the test
+- Use meaningful data that makes test failures clear
+- Clean up any test data that could affect other tests
+
+```elixir
+# GOOD
+test "filters projects by budget range" do
+  gc = insert(:user, role: :general_contractor)
+  low_budget = insert(:project, general_contractor: gc, budget: Decimal.new("1000.00"))
+  high_budget = insert(:project, general_contractor: gc, budget: Decimal.new("10000.00"))
+  
+  results = Projects.list_projects(gc, min_budget: "5000.00")
+  assert results == [high_budget]
+end
+
+# BAD
+test "filters projects" do
+  gc = insert(:user)
+  p1 = insert(:project, budget: Decimal.new("1.00"))
+  p2 = insert(:project, budget: Decimal.new("2.00"))
+  # Unclear test data makes failures harder to understand
+end
+```
+
+## Code Organization
+
+### Context Modules
+- Group related functionality in contexts
+- Keep context modules focused and cohesive
+- Use clear, consistent naming conventions
+- Document public API functions thoroughly
+
+### Schema Modules
+- Define clear relationships between schemas
+- Use strong validations
+- Keep changeset functions focused
+- Document fields and their constraints
+
+### LiveView Modules
+- Separate complex logic into dedicated modules
+- Keep mount and handle_params simple
+- Use components for reusable UI elements
+- Document event handlers and callbacks
+
+## Error Handling
+- Use explicit error tuples
+- Avoid raising exceptions in normal operation
+- Handle all error cases explicitly
+- Document error scenarios
+
+## Naming Conventions
+- Use clear, descriptive names
+- Follow Elixir community conventions
+- Be consistent across similar functions
+- Document any deviations from conventions
+
+## File Organization
+- One module per file
+- Clear file naming that matches module names
+- Consistent directory structure
+- Group related files logically
+
+## Git Practices
+- Clear, focused commits
+- Descriptive commit messages
+- Reference issue numbers when applicable
+- Keep PRs focused and reviewable
